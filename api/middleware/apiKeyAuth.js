@@ -1,4 +1,4 @@
-const pool = require('../config/db'); // Sesuaikan dengan lokasi db.js
+const pool = require('../config/db');
 
 module.exports = async (req, res, next) => {
   const apiKey = req.headers['x-api-key'] || req.query.api_key;

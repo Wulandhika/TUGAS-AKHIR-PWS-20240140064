@@ -1,4 +1,4 @@
-const pool = require('../config/db'); // Gunakan ../config/db atau ../api/db sesuai lokasi asli db.js
+const pool = require('../config/db');
 
 // GET: Ambil Semua Data Cuaca
 exports.getWeatherData = async (req, res) => {
