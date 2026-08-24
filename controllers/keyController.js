@@ -4,15 +4,14 @@ const crypto = require('crypto');
 // Generate API Key Baru
 exports.generateKey = async (req, res) => {
   const userId = req.user.id;
-  const { name } = req.body;
 
   try {
-    // Generate String Acak untuk API Key (Contoh: weather_live_abc123...)
+    // Generate String Acak untuk API Key
     const newApiKey = 'weather_live_' + crypto.randomBytes(16).toString('hex');
 
     const result = await pool.query(
-      'INSERT INTO api_keys (user_id, api_key, name) VALUES ($1, $2, $3) RETURNING id, api_key, name, created_at',
-      [userId, newApiKey, name || 'Default Key']
+      'INSERT INTO public.api_keys (user_id, key_value) VALUES ($1, $2) RETURNING id, key_value, created_at',
+      [userId, newApiKey]
     );
 
     res.status(201).json({
@@ -21,6 +20,10 @@ exports.generateKey = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ 
+      message: 'Server error',
+      error_detail: err.message,
+      error_code: err.code
+    });
   }
 };
