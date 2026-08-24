@@ -11,7 +11,8 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    const keyCheck = await pool.query('SELECT * FROM api_keys WHERE api_key = $1', [apiKey]);
+    // FIX: Ubah api_key menjadi key_value & gunakan public.api_keys
+    const keyCheck = await pool.query('SELECT * FROM public.api_keys WHERE key_value = $1', [apiKey]);
 
     if (keyCheck.rows.length === 0) {
       return res.status(403).json({ 
@@ -24,6 +25,10 @@ module.exports = async (req, res, next) => {
     next();
   } catch (err) {
     console.error('Error Validasi API Key:', err);
-    return res.status(500).json({ message: 'Terjadi kesalahan pada server.' });
+    return res.status(500).json({ 
+      status: 'error',
+      message: 'Terjadi kesalahan pada server saat validasi API Key.',
+      error_detail: err.message 
+    });
   }
 };
