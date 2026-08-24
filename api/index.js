@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); // Tambahkan modul path bawaan Node.js
 require('dotenv').config();
 
-// FIX: Arahkan langsung ke file apiRoutes di dalam folder routes
 const apiRoutes = require('./routes/apiRoutes');
 
 const app = express();
@@ -11,12 +11,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Root Route Test
-app.get('/', (req, res) => {
-  res.json({ message: 'Selamat datang di Weather SaaS Data Service API!' });
-});
+// TAMBAHKAN INI: Agar folder 'public' (HTML/CSS/JS) bisa dibaca
+app.use(express.static(path.join(__dirname, '../public')));
 
-// Mounting API Routes
+// API Routes
 app.use('/api', apiRoutes);
 
 // Untuk testing di lokal
