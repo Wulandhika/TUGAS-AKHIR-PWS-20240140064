@@ -4,9 +4,8 @@ const jwt = require('jsonwebtoken');
 
 // 1. Register User
 exports.register = async (req, res) => {
-  // Ambil username (atau name) dari req.body
   const { username, name, email, password } = req.body;
-  const userIdentifier = username || name; // Fleksibel jika kirim username atau name
+  const userIdentifier = username || name;
 
   try {
     const userExist = await pool.query('SELECT * FROM public.users WHERE email = $1', [email]);
@@ -28,11 +27,16 @@ exports.register = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    // TAMPILKAN ERROR ASLI KE RESPONSE THUNDER CLIENT
+    res.status(500).json({ 
+      message: 'Server error', 
+      error_detail: err.message,
+      error_code: err.code 
+    });
   }
 };
 
-// 2. Login User (Generate JWT)
+// 2. Login User
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -58,6 +62,9 @@ exports.login = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ 
+      message: 'Server error', 
+      error_detail: err.message 
+    });
   }
 };
