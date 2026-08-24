@@ -17,7 +17,8 @@ router.post('/auth/login', authController.login);
 // 2. API Key Management (Protected via JWT)
 router.post('/keys/generate', authJwt, keyController.generateKey);
 
-// 3. SaaS Data Endpoint (Protected via API Key)
+// 3. SaaS Data Endpoints (Protected via API Key)
 router.get('/v1/weather', apiKeyAuth, dataController.getWeatherData);
+router.post('/v1/weather', apiKeyAuth, dataController.createWeatherData);
 
 module.exports = router;
