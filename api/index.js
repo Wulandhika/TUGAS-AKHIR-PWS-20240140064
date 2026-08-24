@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const apiRoutes = require('../routes/apiRoutes');
+// KOREKSI DI BARIS INI: arahkan ke ./routes (bukan ../routes/apiRoutes)
+const apiRoutes = require('./routes');
 
 const app = express();
 
