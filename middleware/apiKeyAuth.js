@@ -1,5 +1,4 @@
-// Perbaikan path db.js
-const pool = require('../api/db') || require('./db');
+const pool = require('../config/db'); // Sesuaikan dengan lokasi db.js
 
 module.exports = async (req, res, next) => {
   const apiKey = req.headers['x-api-key'] || req.query.api_key;

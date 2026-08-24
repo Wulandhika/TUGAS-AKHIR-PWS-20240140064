@@ -1,5 +1,4 @@
-// Perbaikan path db.js sesuai struktur folder api/
-const pool = require('../api/db') || require('./db'); 
+const pool = require('../config/db'); // Gunakan ../config/db atau ../api/db sesuai lokasi asli db.js
 
 // GET: Ambil Semua Data Cuaca
 exports.getWeatherData = async (req, res) => {
