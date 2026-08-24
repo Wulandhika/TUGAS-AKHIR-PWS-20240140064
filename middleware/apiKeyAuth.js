@@ -1,4 +1,5 @@
-const pool = require('../config/db');
+// Perbaikan path db.js
+const pool = require('../api/db') || require('./db');
 
 module.exports = async (req, res, next) => {
   const apiKey = req.headers['x-api-key'] || req.query.api_key;
@@ -11,7 +12,6 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    // FIX: Ubah api_key menjadi key_value & gunakan public.api_keys
     const keyCheck = await pool.query('SELECT * FROM public.api_keys WHERE key_value = $1', [apiKey]);
 
     if (keyCheck.rows.length === 0) {
