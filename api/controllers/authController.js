@@ -4,8 +4,7 @@ const jwt = require('jsonwebtoken');
 
 // 1. Register User
 exports.register = async (req, res) => {
-  const { username, name, email, password } = req.body;
-  const userIdentifier = username || name;
+  const { email, password } = req.body;
 
   try {
     const userExist = await pool.query('SELECT * FROM public.users WHERE email = $1', [email]);
@@ -16,9 +15,10 @@ exports.register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Disesuaikan dengan kolom tabel Supabase: hanya email dan password
     const newUser = await pool.query(
-      'INSERT INTO public.users (username, email, password) VALUES ($1, $2, $3) RETURNING id, username, email',
-      [userIdentifier, email, hashedPassword]
+      'INSERT INTO public.users (email, password) VALUES ($1, $2) RETURNING id, email, created_at',
+      [email, hashedPassword]
     );
 
     res.status(201).json({
@@ -27,7 +27,6 @@ exports.register = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    // TAMPILKAN ERROR ASLI KE RESPONSE THUNDER CLIENT
     res.status(500).json({ 
       message: 'Server error', 
       error_detail: err.message,

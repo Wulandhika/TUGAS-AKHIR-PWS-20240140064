@@ -14,8 +14,10 @@ exports.generateKey = async (req, res) => {
       [userId, newApiKey]
     );
 
+    // Mengubah properti balasan agar langsung terbaca key_value-ya oleh frontend
     res.status(201).json({
       message: 'API Key berhasil dibuat!',
+      api_key: result.rows[0].key_value,
       apiKeyData: result.rows[0]
     });
   } catch (err) {

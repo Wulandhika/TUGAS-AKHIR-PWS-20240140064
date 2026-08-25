@@ -21,4 +21,8 @@ router.post('/keys/generate', authJwt, keyController.generateKey);
 router.get('/v1/weather', apiKeyAuth, dataController.getWeatherData);
 router.post('/v1/weather', apiKeyAuth, dataController.createWeatherData);
 
+// --- TAMBAHKAN DUA RUTE INI AGAR FITUR EDIT & HAPUS TIDAK 404 ---
+router.put('/v1/weather/:id', apiKeyAuth, dataController.updateWeatherData);
+router.delete('/v1/weather/:id', apiKeyAuth, dataController.deleteWeatherData);
+
 module.exports = router;
