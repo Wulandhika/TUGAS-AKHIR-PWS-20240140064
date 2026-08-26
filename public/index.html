@@ -121,8 +121,7 @@
 
     <!-- Script -->
     <script>
-        // Gunakan Base URL backend secara eksplisit agar aman dari masalah port / CORS
-        const API_BASE_URL = 'http://localhost:5000';
+        const API_BASE_URL = '';
 
         let isLoginMode = true;
         let jwtToken = localStorage.getItem('saas_jwt') || '';
@@ -167,7 +166,7 @@
                 }
             } catch (err) {
                 console.error(err);
-                alert('Gagal terhubung ke server backend di ' + API_BASE_URL);
+                alert('Gagal terhubung ke server backend.');
             }
         }
 
